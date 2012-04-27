@@ -1,0 +1,1 @@
+echo call %* >> deferred.bat
