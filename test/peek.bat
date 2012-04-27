@@ -1,0 +1,1 @@
+findstr /s "<testsuite" TEST-*.xml | findstr /v "errors=\"0\" failures=\"0\""
