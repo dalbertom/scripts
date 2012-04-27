@@ -1,0 +1,1 @@
+for %%a in (exe bat) do cacls *.%%a /t /e /p %USERDOMAIN%\%USERNAME%:F
