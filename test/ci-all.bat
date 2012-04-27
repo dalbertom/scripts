@@ -1,0 +1,1 @@
+call ci-test "api,cactus,backend,expression,ix,jsunit,rest-frontend,process,quarantine,suiteapi,webservices" %*
