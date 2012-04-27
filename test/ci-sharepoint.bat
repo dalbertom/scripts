@@ -1,0 +1,1 @@
+call ci-test "sharepoint-plugins" -Dsharepoint.assembly.deploy=false -Dsharepoint.iis.default.port=81 -Dsharepoint.buildutils.maxretry=5 -Dsharepoint.buildutils.waitinterval=60
