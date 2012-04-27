@@ -1,0 +1,1 @@
+if exist trash rd /s/q trash
