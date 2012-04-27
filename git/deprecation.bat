@@ -1,0 +1,1 @@
+git grep -l "@SuppressWarnings(\"deprecation\")" -- *.java
