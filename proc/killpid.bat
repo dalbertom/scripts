@@ -1,0 +1,1 @@
+for %%a in (%*) do taskkill /f /pid %%a
