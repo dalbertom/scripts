@@ -1,0 +1,1 @@
+for %%a in (%*) do for /f %%b in ('dir /s/b %%a') do select %%b

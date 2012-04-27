@@ -1,0 +1,1 @@
+start explorer /select,"%~f1"
