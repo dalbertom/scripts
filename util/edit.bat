@@ -1,0 +1,1 @@
+@start notepad %~dp0%1.bat
