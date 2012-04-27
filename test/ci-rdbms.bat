@@ -1,0 +1,1 @@
+call ci-test "rdbms" -Dprimary.datasource=ci-mysql -Dtable.name.prefix=dev %*
