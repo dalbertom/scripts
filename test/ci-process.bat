@@ -1,0 +1,1 @@
+call ci-test "process,process-internal" %*
