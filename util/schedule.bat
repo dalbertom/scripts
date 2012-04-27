@@ -1,0 +1,1 @@
+schtasks /create /sc DAILY /MO 1 /TN "%1 %2" /tr "%~f1 %~f2" /ST 07:00 /IT
