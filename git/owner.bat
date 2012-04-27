@@ -1,0 +1,1 @@
+for /f %%a in ('git ls-files %*') do git shortlog -nes %%a
