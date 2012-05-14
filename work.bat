@@ -7,6 +7,7 @@ where /q ant || path %path%;%ANT_HOME%\bin
 
 if not defined GIT_HOME set GIT_HOME=C:\work\tools\msysgit\msysgit
 where /q git || path %path%;%GIT_HOME%\bin;%GIT_HOME%\mingw\bin;%GIT_HOME%\cmd
+set TERM=msys
 
 if not defined HOME set HOME=%USERPROFILE%
 if not exist %HOME%\.ssh\id_rsa ssh-keygen -t rsa
@@ -23,11 +24,25 @@ where /q groovy || path %path%;%GROOVY_HOME%\bin
 if not defined M3_HOME set M3_HOME=C:\work\tools\apache-maven-3.0.3
 where /q mvn || path %path%;%M3_HOME%\bin
 
-if exist scripts pushd scripts
-path %cd%;%path%
-popd
+for %%a in (ci
+test
+ocd
+work
+util
+git
+jboss
+ssh
+proc
+display
+ant) do call :appendpath %%a
+
 popd
 prompt $+$B$D$$$T$H$H$H$G
 mode con cols=100 lines=5000
 color 17
 %*
+goto :eof
+
+:appendpath
+if exist %1 path %~f1;%path%
+goto :eof
