@@ -7,4 +7,5 @@ taskkill /f /im xargs.exe
 taskkill /f /im sed.exe
 taskkill /f /im find.exe
 taskkill /f /im bash.exe
+taskkill /f /im HPPA_Main.exe
 %*
