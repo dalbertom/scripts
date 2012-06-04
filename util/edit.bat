@@ -1,1 +1,1 @@
-@for /f %%a in ('where %1.bat') do notepad %%a
+@for /f %%a in ('where %1.bat') do start notepad %%a
