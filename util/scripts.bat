@@ -1,1 +1,1 @@
-start /d %~dp0
+start /d %~dp0..
