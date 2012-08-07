@@ -1,4 +1,7 @@
 pushd %~dp0
+set JAVA_HOME6_26="c:\Program Files\Java\jdk1.6.0_26"
+set JAVA_HOME6_27="c:\Program Files\Java\jdk1.6.0_27"
+set JAVA_HOME6_31="c:\Program Files\Java\jdk1.6.0_31"
 if not defined JAVA_HOME set JAVA_HOME=C:\Program Files\Java\jdk1.6.0_31
 where /q javac || path %path%;%JAVA_HOME%\bin
 
@@ -21,8 +24,8 @@ where /q compare || path %path%;%ARAXIS_HOME%
 if not defined GROOVY_HOME set GROOVY_HOME=C:\Program Files (x86)\Groovy\Groovy-1.8.4
 where /q groovy || path %path%;%GROOVY_HOME%\bin
 
-if not defined M3_HOME set M3_HOME=C:\work\tools\apache-maven-3.0.3
-where /q mvn || path %path%;%M3_HOME%\bin
+if not defined M2_HOME set M2_HOME=C:\work\tools\apache-maven-3.0.3
+where /q mvn || path %path%;%M2_HOME%\bin
 
 for %%a in (ci
 test
