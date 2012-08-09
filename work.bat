@@ -9,7 +9,8 @@ if not defined ANT_HOME set ANT_HOME=C:\work\tools\apache-ant-1.8.2
 where /q ant || path %path%;%ANT_HOME%\bin
 
 if not defined GIT_HOME set GIT_HOME=C:\work\tools\msysgit\msysgit
-where /q git || path %path%;%GIT_HOME%\bin;%GIT_HOME%\mingw\bin;%GIT_HOME%\cmd
+where /q git || path %path%;%GIT_HOME%\bin;%GIT_HOME%\mingw\bin;%GIT_HOME%\cmd;%GIT_HOME%\git;%GIT_HOME%\git\contrib
+
 set TERM=msys
 
 if not defined HOME set HOME=%USERPROFILE%
