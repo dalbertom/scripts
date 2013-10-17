@@ -19,9 +19,9 @@ function git-hunt {
 }
 
 function git-fixup {
-  git ls-files -m | while read file; do
+  git ls-files -m $* | while read file; do
     echo "Diff for $file"
-    git diff -U1 $* $file | grep ^@@ | cut -d @ -f 3 | sed -E -e "s/[-+]([0-9]+),([0-9]+)/-L\1,+\2/g" | awk -v f=$file '{
+    git diff -U1 $file | grep ^@@ | cut -d @ -f 3 | sed -E -e "s/[-+]([0-9]+),([0-9]+)/-L\1,+\2/g" | awk -v f=$file '{
       system(sprintf("git blame -s $MASTER..HEAD %s %s", $1, f))
       print ""
       system(sprintf("git blame -s HEAD %s %s", $1, f))
