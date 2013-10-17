@@ -24,7 +24,7 @@ function git-fixup {
     git diff -U1 $file | grep ^@@ | cut -d @ -f 3 | sed -E -e "s/[-+]([0-9]+),([0-9]+)/-L\1,+\2/g" | awk -v f=$file '{
       system(sprintf("git blame -s $MASTER..HEAD %s %s", $1, f))
       print ""
-      system(sprintf("git blame -s HEAD %s %s", $1, f))
+      system(sprintf("git blame -fs HEAD %s %s", $1, f))
       print ""
       system(sprintf("git blame -s %s %s", $2, f))
       print "-------------"
