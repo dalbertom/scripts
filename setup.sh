@@ -4,7 +4,7 @@ if [ ! -d ~/.gist ]; then
   cat<<EOF>>~/.profile
 if [ -d ~/.gist ]; then
   for i in ~/.gist/auto-*.sh; do
-    source $i
+    source \$i
   done
 fi
 EOF
