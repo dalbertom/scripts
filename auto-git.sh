@@ -107,6 +107,13 @@ function git-tracking {
   git branch -vv | grep "^*" | grep -o "\[.*\]" | awk '{print substr($0,2,length($0)-2)}' | cut -d : -f 1
 }
 
+function git-independent {
+  git branch -r --no-merged $MASTER \
+  | xargs git merge-base --independent \
+  | git name-rev --stdin --name-only --refs=refs/remotes/* \
+  | cut -d / -f 2-
+}
+
 if [ -n "$SSH_TTY" ]; then
   PS1='\[\e[0;37m\]\t \[\e[0;32m\]\u@\h \[\e[0;36m\]\w\[\e[0;33m\]\n\[\e[0;37m\]\!\[\e[0m\]\$ '
 else
