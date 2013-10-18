@@ -33,7 +33,7 @@ function git-fixup {
 }
 
 function git-praise {
-  git grep -n "$*" | cut -d: -f 1-2 | sed "s/:\(.*\)/ -L\1,+1/" | xargs -n 2 git --no-pager blame -fn $MASTER..HEAD
+  git grep -n "$*" | cut -d: -f 1-2 | sed "s/:\(.*\)/ -L\1,+1/" | xargs -n 2 git --no-pager blame -w -fn $MASTER..HEAD
 }
 
 function git-review-today {
