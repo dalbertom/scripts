@@ -2,6 +2,7 @@ function setup-sites {
   export EC2_HOME=$1
   export SITE_USERNAME=$2
   export SITE_LOG_APPSERVER=$3
+  export SITE_LOG_AUDIT=$4
   export PATH=$EC2_HOME/bin:$PATH
   export EC2_CERT=~/.ssh/aws.crt
   export EC2_PRIVATE_KEY=~/.ssh/aws.key
@@ -18,4 +19,8 @@ function ssh-site {
 
 function site-exceptions {
   ssh-site $* cat $SITE_LOG_APPSERVER | awk '/Exception/,/^$/ {print $0}'
+}
+
+function site-activity {
+  ssh-site $* tail -f $SITE_LOG_AUDIT
 }
