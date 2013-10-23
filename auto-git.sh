@@ -114,6 +114,12 @@ function git-independent {
   | cut -d / -f 2-
 }
 
+function git-parents {
+  git rev-list --first-parent --parents --merges $MASTER..HEAD \
+  | awk '{first[$1]=1; for(i=1;i<=split($0,tmp);i++) all[tmp[i]]=1} 
+     END {for(k in first) delete all[k]; for(k in all) print k}'
+}
+
 if [ -n "$SSH_TTY" ]; then
   PS1='\[\e[0;37m\]\t \[\e[0;32m\]\u@\h \[\e[0;36m\]\w\[\e[0;33m\]\n\[\e[0;37m\]\!\[\e[0m\]\$ '
 else
