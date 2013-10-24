@@ -3,6 +3,7 @@ function setup-sites {
   export SITE_USERNAME=$2
   export SITE_LOG_APPSERVER=$3
   export SITE_LOG_AUDIT=$4
+  export SITE_DEFAULT_DOMAIN=$5
   export PATH=$EC2_HOME/bin:$PATH
   export EC2_CERT=~/.ssh/aws.crt
   export EC2_PRIVATE_KEY=~/.ssh/aws.key
@@ -14,8 +15,13 @@ function site-list {
 
 alias qssh='ssh -e none -o StrictHostKeyChecking=no'
 function ssh-site {
-  ssh-forget $1
-  qssh $SITE_USERNAME@$*
+  hostname=$1
+  if [[ "$hostname" != "*.$SITE_DEFAULT_DOMAIN" ]]; then
+    hostname=$hostname.$SITE_DEFAULT_DOMAIN
+  fi
+  shift
+  ssh-forget $hostname
+  qssh $SITE_USERNAME@$hostname $*
 }
 
 function site-exceptions {
