@@ -14,7 +14,8 @@ function site-list {
 
 alias qssh='ssh -e none -o StrictHostKeyChecking=no'
 function ssh-site {
-  qssh $SITE_USERNAME@$* || (ssh-forget $1; qssh $SITE_USERNAME@$*)
+  ssh-forget $1
+  qssh $SITE_USERNAME@$*
 }
 
 function site-exceptions {
