@@ -10,7 +10,7 @@ function setup-sites {
 }
 
 function site-list {
-  ec2dtag | awk '/instance.*Name.*site:/ {print $6}'
+  ec2dtag | awk '/instance.*Name.*site:/ {print $6}' | sort
 }
 
 alias qssh='ssh -e none -o StrictHostKeyChecking=no'
