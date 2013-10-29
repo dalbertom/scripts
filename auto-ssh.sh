@@ -10,3 +10,12 @@ function ssh-forget {
 function ssh-other {
   ping -o $SSH_OTHER_HOSTNAME && ssh -e none $SSH_OTHER_USERNAME@$SSH_OTHER_HOSTNAME $*
 }
+
+function ssh-tunnel {
+  remoteuser=$1
+  remotehost=$2
+  remoteport=$3
+  localport=${4-$remoteport}
+  
+  ssh -f $remoteuser@$remotehost -L $localport:$remotehost:$remoteport -N
+}
