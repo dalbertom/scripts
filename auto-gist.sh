@@ -6,5 +6,6 @@ function gist-pull {
   pushd ~/.gist
   git pull
   popd
+  source ~/.profile
 }
 
