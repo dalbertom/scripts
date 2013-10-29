@@ -12,10 +12,11 @@ function ssh-other {
 }
 
 function ssh-tunnel {
-  remoteuser=$1
-  remotehost=$2
-  remoteport=$3
-  localport=${4-$remoteport}
+  remotehost=$1
+  remoteport=$2
+  gatewayuser=${3-$USER}
+  gatewayhost=${4-$remotehost}
+  localport=${5-$remoteport}
   
-  ssh -f $remoteuser@$remotehost -L $localport:$remotehost:$remoteport -N
+  ssh -f -L $localport:$remotehost:$remoteport -N $gatewayuser@$gatewayhost
 }
