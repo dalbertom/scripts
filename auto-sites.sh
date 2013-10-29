@@ -21,7 +21,7 @@ function site-list {
 alias qssh='ssh -e none -o StrictHostKeyChecking=no'
 function ssh-site {
   hostname=$1
-  if [[ "$hostname" != "*.$SITE_DEFAULT_DOMAIN" ]]; then
+  if [[ ! $hostname =~ .*$SITE_DEFAULT_DOMAIN ]]; then
     hostname=$hostname.$SITE_DEFAULT_DOMAIN
   fi
   shift
