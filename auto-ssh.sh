@@ -21,6 +21,16 @@ function ssh-tunnel {
   ssh -f -L $localport:$remotehost:$remoteport -N $gatewayuser@$gatewayhost
 }
 
+function ssh-tunnel-reverse {
+  remotehost=$1
+  remoteport=$2
+  gatewayport=${3-$remoteport}
+  gatewayuser=${4-$USER}
+  gatewayhost=${5-$remotehost}
+
+  ssh -f -R $gatewayport:$remotehost:$remoteport -N $gatewayuser@$gatewayhost
+}
+
 function ssh-kill-tunnels {
-  ps -ef | grep "ssh -f -L" | grep -v grep | awk '{print $2}' | xargs kill -9
+  ps -ef | grep -E "ssh -f -(L|R)" | grep -v grep | awk '{print $2}' | xargs kill -9
 }
