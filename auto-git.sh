@@ -120,6 +120,11 @@ function git-parents {
      END {for(k in first) delete all[k]; for(k in all) print k}'
 }
 
+function git-ls-dir {
+  dir=$1
+  git ls-files -- */$1/* | grep -o ".*$1" | sort -u
+}
+
 if [ -n "$SSH_TTY" ]; then
   PS1='\[\e[0;37m\]\t \[\e[0;32m\]\u@\h \[\e[0;36m\]\w\[\e[0;33m\]\n\[\e[0;37m\]\!\[\e[0m\]\$ '
 else
