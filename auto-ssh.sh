@@ -20,3 +20,7 @@ function ssh-tunnel {
   
   ssh -f -L $localport:$remotehost:$remoteport -N $gatewayuser@$gatewayhost
 }
+
+function ssh-kill-tunnels {
+  ps -ef | grep "ssh -f -L" | grep -v grep | awk '{print $2}' | xargs kill -9
+}
