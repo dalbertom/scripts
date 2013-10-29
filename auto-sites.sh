@@ -1,8 +1,10 @@
 function setup-sites {
   export SITE_USERNAME=$1
-  export SITE_LOG_APPSERVER=$2
-  export SITE_LOG_AUDIT=$3
-  export SITE_DEFAULT_DOMAIN=$4
+  export SITE_DEFAULT_DOMAIN=$2
+  SITE_BASEDIR=$3
+  export SITE_LOG_APPSERVER=$SITE_BASEDIR/$4
+  export SITE_LOG_AUDIT=$SITE_BASEDIR/$5
+  export SITE_BUILD_INFO=$SITE_BASEDIR/$6
 }
 
 function setup-ec2 {
@@ -25,6 +27,10 @@ function ssh-site {
   shift
   ssh-forget $hostname
   qssh $SITE_USERNAME@$hostname $*
+}
+
+function site-info {
+  ssh-site $* grep = $SITE_BUILD_INFO
 }
 
 function site-exceptions {
