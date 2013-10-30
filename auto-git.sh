@@ -40,7 +40,7 @@ function git-review-today {
   git neighborhood refs/remotes \
   | grep `date +%Y-%m-%d` | cut -d , -f 2 \
   | while read i; do
-    git -c core.whitespace=cr-at-eol log --source --decorate --dirstat --log-size --format=fuller -p $MASTER..$i
+    git -c core.whitespace=cr-at-eol log --source --decorate --dirstat --log-size --format=fuller -p -w $MASTER..$i
   done
 }
 
@@ -48,7 +48,7 @@ function git-review-yesterday {
   git neighborhood refs/remotes \
   | grep `date -v-1d +%Y-%m-%d` | cut -d , -f 2 \
   | while read i; do
-    git -c core.whitespace=cr-at-eol log --source --decorate --dirstat --log-size --format=fuller -p $MASTER..$i
+    git -c core.whitespace=cr-at-eol log --source --decorate --dirstat --log-size --format=fuller -p -w $MASTER..$i
   done
 }
 
