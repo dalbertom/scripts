@@ -52,6 +52,16 @@ function git-review-yesterday {
   done
 }
 
+function git-review-rebases {
+  git neighborhood refs/remotes | cut -d , -f 2 | cut -d / -f 3- \
+  | grep -v master | while read i; do 
+    git rev-list -g --count $i 2> /dev/null || echo 0; echo $i; done \
+  | xargs -n 2 | sort -n | awk '$1 > 1 {print $2}' \
+  | while read i; do 
+    echo -e "\n$i"; git rev-list -g $i \
+  | while read j; do echo $(git merge-base $MASTER $j) $j; done; done
+}
+
 function git-stat-commit {
   git log --oneline --shortstat --format="commit %h" --no-merges $* \
   | awk '/commit/ {hash=$2} /file/ {printf("%s %s %s\n", hash, $4, $6)}'
