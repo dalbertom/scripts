@@ -7,12 +7,12 @@ function setup-github {
 }
 
 function github-curl {
-  curl -i -H "Authorization: token $GITHUB_TOKEN" -H "User-Agent: $GITHUB_AGENT" $*
+  curl -H "Authorization: token $GITHUB_TOKEN" -H "User-Agent: $GITHUB_AGENT" $*
 }
 
 function github-teams-list {
   org=$1
-  github-curl "$GITHUB_API_URL/orgs/$org/teams"
+  github-curl "$GITHUB_API_URL/orgs/$org/teams" | python -mjson.tool
 }
 
 function github-teams-addmember {
