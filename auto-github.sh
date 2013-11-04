@@ -15,7 +15,7 @@ function github-teams-list {
   github-curl "$GITHUB_API_URL/orgs/$org/teams"
 }
 
-funciton github-teams-addmember {
+function github-teams-addmember {
   team=$1
   user=$2
   github-curl -X PUT "$GITHUB_API_URL/teams/$team/members/$user"
