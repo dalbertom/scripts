@@ -1,4 +1,5 @@
 GITHUB_URL=https://github.com
+GITHUB_API_URL=https://api.github.com
 
 function setup-github {
   export GITHUB_TOKEN=$1
@@ -6,12 +7,18 @@ function setup-github {
 }
 
 function github-curl {
-  curl -i -H "Authorization: token $GITHUB_TOKEN" -H "User-Agent: $GITHUB_AGENT" https://api.github.com/$*
+  curl -i -H "Authorization: token $GITHUB_TOKEN" -H "User-Agent: $GITHUB_AGENT" $*
 }
 
 function github-teams-list {
   org=$1
-  github-curl "orgs/$org/teams"
+  github-curl "$GITHUB_API_URL/orgs/$org/teams"
+}
+
+funciton github-teams-addmember {
+  team=$1
+  user=$2
+  github-curl -X PUT "$GITHUB_API_URL/teams/$team/members/$user"
 }
 
 function github-notifications {
