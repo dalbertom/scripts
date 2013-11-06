@@ -10,6 +10,10 @@ function setup-jenkins {
   export JENKINS_AUTH=$2
 }
 
+function ci {
+  open "$JENKINS_URL/view/$(git-tracking | sed s:/:_:)"
+}
+
 function jenkins-views {
   jenkins-curl -g $JENKINS_URL/api/xml?tree=views[name] | xpath "/hudson/view/name" 2>&1 | grep -F "<name>" | sed -E "s:<name>(.*)</name>(-- NODE --)?:\1:"
 }
