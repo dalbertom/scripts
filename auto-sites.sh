@@ -5,6 +5,7 @@ function setup-sites {
   export SITE_LOG_APPSERVER=$SITE_BASEDIR/$4
   export SITE_LOG_AUDIT=$SITE_BASEDIR/$5
   export SITE_BUILD_INFO=$SITE_BASEDIR/$6
+  export SITE_PLUGINS=$SITE_BASEDIR/$7
 }
 
 function setup-ec2 {
@@ -20,10 +21,7 @@ function site-list {
 
 alias qssh='ssh -e none -o StrictHostKeyChecking=no'
 function ssh-site {
-  sitename=$1
-  if [[ ! $sitename =~ .*$SITE_DEFAULT_DOMAIN ]]; then
-    sitename=$sitename.$SITE_DEFAULT_DOMAIN
-  fi
+  sitename=$(site-default-domain $1)
   shift
   ssh-forget $sitename
   qssh $SITE_USERNAME@$sitename $*
@@ -31,6 +29,32 @@ function ssh-site {
 
 function site-info {
   ssh-site $* grep = $SITE_BUILD_INFO
+}
+
+function site-default-domain {
+  sitename=$1
+  if [[ ! $sitename =~ .*$SITE_DEFAULT_DOMAIN ]]; then
+    sitename=$sitename.$SITE_DEFAULT_DOMAIN
+  fi
+  echo $sitename
+}
+
+function site-plugins-transfer {
+  srchost=$(site-default-domain $1)
+  dsthost=$(site-default-domain $2)
+  scp -3 $SITE_USERNAME@$srchost:$SITE_PLUGINS/*.jar $SITE_USERNAME@$dsthost:$SITE_PLUGINS
+}
+
+function site-plugins-download {
+  srchost=$(site-default-domain $1)
+  dest=${2-.}
+  scp $SITE_USERNAME@$srchost:$SITE_PLUGINS/*.jar $dest
+}
+
+function site-plugins-upload {
+  dsthost=$(site-default-domain $1)
+  src=${2-.}
+  scp $src/*.jar $SITE_USERNAME@$dsthost:$SITE_PLUGINS
 }
 
 function site-exceptions {
