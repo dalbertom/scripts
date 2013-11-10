@@ -30,6 +30,12 @@ function git-hunt2 {
   done | xargs git log -1
 }
 
+function git-hunt3 {
+  target=$1
+  base=${2-HEAD}
+  git log --reverse --ancestry-path --first-parent $target..$base
+}
+
 function git-fixup {
   git ls-files -m $* | while read file; do
     echo "Diff for $file"
