@@ -33,7 +33,7 @@ function git-hunt2 {
 function git-hunt3 {
   target=$1
   base=${2-HEAD}
-  git log --reverse --ancestry-path --first-parent $target..$base
+  git log --reverse --ancestry-path --merges $target..$base
 }
 
 function git-fixup {
