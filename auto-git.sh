@@ -15,7 +15,19 @@ function git-hunt {
   target=$1
   base=$2
   if [ -z $base ]; then base=HEAD; fi
-  git rev-list --merges --first-parent $target..$base | while read changeset; do git log --format="$changeset %H" $changeset^1..$changeset^2 | grep $target && git log -1 $changeset; done
+  git rev-list --reverse --merges --first-parent $target..$base \
+  | while read changeset; do 
+    git log --format="$changeset %H" $changeset^1..$changeset^2 | grep $target && git log -1 $changeset && break
+  done
+}
+
+function git-hunt2 {
+  target=$1
+  base=${2-HEAD}
+  git rev-list --reverse --merges --first-parent $target..$base \
+  | while read i; do 
+    git merge-base --is-ancestor $target $i^2 && echo $i && break
+  done | xargs git log -1
 }
 
 function git-fixup {
