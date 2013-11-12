@@ -10,6 +10,10 @@ function github-curl {
   curl -H "Authorization: token $GITHUB_TOKEN" -H "User-Agent: $GITHUB_AGENT" $*
 }
 
+function github-curl2 {
+  curl -u $GITHUB_TOKEN:x-oauth-basic $*
+}
+
 function github-teams-list {
   org=$1
   github-curl "$GITHUB_API_URL/orgs/$org/teams" | python -mjson.tool
