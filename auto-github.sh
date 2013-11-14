@@ -25,6 +25,13 @@ function github-teams-addmember {
   github-curl -X PUT "$GITHUB_API_URL/teams/$team/members/$user"
 }
 
+function github-statuses {
+  owner=$1
+  repo=$2
+  ref=$3
+  github-curl "$GITHUB_API_URL/repos/$owner/$repo/statuses/$ref"
+}
+
 function github-notifications {
   open $GITHUB_URL/notifications
 }
