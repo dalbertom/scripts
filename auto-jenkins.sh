@@ -18,6 +18,17 @@ function jenkins-views {
   jenkins-curl -g $JENKINS_URL/api/xml?tree=views[name] | xpath "/hudson/view/name" 2>&1 | grep -F "<name>" | sed -E "s:<name>(.*)</name>(-- NODE --)?:\1:"
 }
 
+function jenkins-top-list {
+  jenkins-views | cut -d _ -f 1 | uniq -c | sort -nr
+}
+
+function jenkins-top-list-merged {
+  jenkins-views | sed "s:_:/:" \
+  | while read i; do 
+    git show-ref -q $i && git merge-base --is-ancestor $i $MASTER && echo $i
+  done | cut -d / -f 1 | uniq -c | sort -nr
+}
+
 function jenkins-jobs {
   view=$1
   jenkins-curl "$JENKINS_URL/view/$view/api/xml" | xpath "/listView/job/name" 2>&1 | grep -F "<name>" | sed -E "s:<name>(.*)</name>(-- NODE --)?:\1:"
