@@ -21,17 +21,23 @@ function jenkins-views {
 
 function jenkins-rss-failed {
   jenkins-curl $JENKINS_URL/view/$JENKINS_DEFAULT_VIEW/rssFailed \
-  | xpath "//feed/entry/link/@href" 2>&1 | grep -E -o '".*"' | sed -E 's/"(.*)"/\1/'
+  | xpath "/feed/entry/updated|/feed/entry/link/@href" 2>&1 \
+  | grep -o '[">].*["<]' | sed -E 's/[">](.*)["<]/\1/' \
+  | xargs -n 2 | awk '{printf("%s %s\n", $2, $1)}'
 }
 
 function jenkins-rss-all {
   jenkins-curl $JENKINS_URL/view/$JENKINS_DEFAULT_VIEW/rssAll \
-  | xpath "//feed/entry/link/@href" 2>&1 | grep -E -o '".*"' | sed -E 's/"(.*)"/\1/'
+  | xpath "/feed/entry/updated|/feed/entry/link/@href" 2>&1 \
+  | grep -o '[">].*["<]' | sed -E 's/[">](.*)["<]/\1/' \
+  | xargs -n 2 | awk '{printf("%s %s\n", $2, $1)}'
 }
 
 function jenkins-rss-latest {
   jenkins-curl $JENKINS_URL/view/$JENKINS_DEFAULT_VIEW/rssLatest \
-  | xpath "//feed/entry/link/@href" 2>&1 | grep -E -o '".*"' | sed -E 's/"(.*)"/\1/'
+  | xpath "/feed/entry/updated|/feed/entry/link/@href" 2>&1 \
+  | grep -o '[">].*["<]' | sed -E 's/[">](.*)["<]/\1/' \
+  | xargs -n 2 | awk '{printf("%s %s\n", $2, $1)}'
 }
 
 function jenkins-top-list {
