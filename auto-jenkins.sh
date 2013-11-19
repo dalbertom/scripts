@@ -8,6 +8,7 @@ alias jenkins-curl='curl -s -H "$JENKINS_AUTH"'
 function setup-jenkins {
   export JENKINS_URL=$1
   export JENKINS_AUTH=$2
+  export JENKINS_DEFAULT_VIEW=$3
 }
 
 function ci {
@@ -16,6 +17,21 @@ function ci {
 
 function jenkins-views {
   jenkins-curl -g $JENKINS_URL/api/xml?tree=views[name] | xpath "/hudson/view/name" 2>&1 | grep -F "<name>" | sed -E "s:<name>(.*)</name>(-- NODE --)?:\1:"
+}
+
+function jenkins-rss-failed {
+  jenkins-curl $JENKINS_URL/view/$JENKINS_DEFAULT_VIEW/rssFailed \
+  | xpath "//feed/entry/link/@href" 2>&1 | grep -E -o '".*"' | sed -E 's/"(.*)"/\1/'
+}
+
+function jenkins-rss-all {
+  jenkins-curl $JENKINS_URL/view/$JENKINS_DEFAULT_VIEW/rssAll \
+  | xpath "//feed/entry/link/@href" 2>&1 | grep -E -o '".*"' | sed -E 's/"(.*)"/\1/'
+}
+
+function jenkins-rss-latest {
+  jenkins-curl $JENKINS_URL/view/$JENKINS_DEFAULT_VIEW/rssLatest \
+  | xpath "//feed/entry/link/@href" 2>&1 | grep -E -o '".*"' | sed -E 's/"(.*)"/\1/'
 }
 
 function jenkins-top-list {
