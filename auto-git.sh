@@ -54,21 +54,16 @@ function git-praise {
   git grep -n $* | cut -d: -f 1-2 | sed "s/:\(.*\)/ -L\1,+1/" | xargs -n 2 git --no-pager blame -w -fn HEAD
 }
 
-function git-review-today {
+function git-review {
+  d=$1
   git neighborhood refs/remotes \
-  | grep `date +%Y-%m-%d` | cut -d , -f 2 \
+  | grep "^$d" | cut -d , -f 2 \
   | while read i; do
     git -c core.whitespace=cr-at-eol log --source --decorate --dirstat --log-size --format=fuller -p -w $MASTER..$i
   done
 }
-
-function git-review-yesterday {
-  git neighborhood refs/remotes \
-  | grep `date -v-1d +%Y-%m-%d` | cut -d , -f 2 \
-  | while read i; do
-    git -c core.whitespace=cr-at-eol log --source --decorate --dirstat --log-size --format=fuller -p -w $MASTER..$i
-  done
-}
+alias git-review-today="git-review `today`"
+alias git-review-yesterday="git-review `yesterday`"
 
 function git-review-rebases {
   git neighborhood refs/remotes | cut -d , -f 2 | cut -d / -f 3- \
