@@ -59,7 +59,7 @@ function git-review {
   git neighborhood refs/remotes \
   | grep "^$d" | cut -d , -f 2 \
   | while read i; do
-    git -c core.whitespace=cr-at-eol log --source --decorate --dirstat --log-size --format=fuller -p -w $MASTER..$i
+    git -c core.whitespace=cr-at-eol log --source --decorate --dirstat --log-size --format=fuller -p -C -w $MASTER..$i
   done
 }
 alias git-review-today="git-review `today`"
