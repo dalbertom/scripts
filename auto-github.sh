@@ -32,6 +32,11 @@ function github-statuses {
   github-curl "$GITHUB_API_URL/repos/$owner/$repo/statuses/$ref"
 }
 
+function github-keys {
+  user=$1
+  curl $GITHUB_URL/$user.keys
+}
+
 function github-notifications {
   open $GITHUB_URL/notifications
 }
