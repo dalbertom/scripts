@@ -44,6 +44,10 @@ function jenkins-console {
   jenkins-curl $1/consoleText
 }
 
+function jenkins-console-failed {
+  jenkins-console $1 | grep "TEST.*FAILED"
+}
+
 function jenkins-top-list {
   jenkins-views | cut -d _ -f 1 | uniq -c | sort -nr
 }
