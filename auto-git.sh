@@ -148,6 +148,15 @@ function git-ls-dir {
   git ls-files -- */$1/* | grep -o ".*$1" | sort -u
 }
 
+function git-whoami {
+  echo $GIT_DIR $GIT_WORK_TREE
+}
+
+function git-workspace {
+  export GIT_DIR=$1
+  export GIT_WORK_TREE=$2
+}
+
 if [ -n "$SSH_TTY" ]; then
   PS1='\[\e[0;37m\]\t \[\e[0;32m\]\u@\h \[\e[0;36m\]\w\[\e[0;33m\]\n\[\e[0;37m\]\!\[\e[0m\]\$ '
 else
