@@ -40,6 +40,10 @@ function jenkins-rss-latest {
   | xargs -n 2 | awk '{printf("%s %s\n", $2, $1)}'
 }
 
+function jenkins-console {
+  jenkins-curl $1/consoleText
+}
+
 function jenkins-top-list {
   jenkins-views | cut -d _ -f 1 | uniq -c | sort -nr
 }
