@@ -157,6 +157,12 @@ function git-workspace {
   export GIT_WORK_TREE=$2
 }
 
+# preferred over git-workspace
+function git-link {
+  if [ -f .git ]; then cat .git; fi 
+  echo "gitdir: $1" > .git
+}
+
 if [ -n "$SSH_TTY" ]; then
   PS1='\[\e[0;37m\]\t \[\e[0;32m\]\u@\h \[\e[0;36m\]\w\[\e[0;33m\]\n\[\e[0;37m\]\!\[\e[0m\]\$ '
 else
