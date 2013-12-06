@@ -164,7 +164,7 @@ function git-link {
 }
 
 function git-find {
-  find . -type d -name "*.git"
+  find . -type d -name "*.git" $*
 }
 
 function git-du {
