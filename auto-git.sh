@@ -163,8 +163,12 @@ function git-link {
   echo "gitdir: $1" > .git
 }
 
+function git-find {
+  find . -type d -name "*.git"
+}
+
 function git-du {
-  find . -type d -name "*.git" | xargs du -sh
+  git-find | xargs du -sh
 }
 
 if [ -n "$SSH_TTY" ]; then
