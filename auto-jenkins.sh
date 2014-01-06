@@ -22,10 +22,12 @@ function jenkins-views {
 function jenkins-rss-failed-default {
   jenkins-rss-failed $JENKINS_DEFAULT_VIEW
 }
+
 function jenkins-rss-all-default {
   jenkins-rss-all $JENKINS_DEFAULT_VIEW
 }
-function jenkins-rss-latest {
+
+function jenkins-rss-latest-default {
   jenkins-rss-latest $JENKINS_DEFAULT_VIEW
 }
 
@@ -42,14 +44,24 @@ function jenkins-rss-failed {
 }
 
 function jenkins-rss-all {
-  jenkins-curl $JENKINS_URL/view/$JENKINS_DEFAULT_VIEW/rssAll \
+  if [ -z $1 ]; then
+    url=$JENKINS_URL/rssAll
+  else
+    url=$JENKINS_URL/view/$1/rssAll
+  fi
+  jenkins-curl $url \
   | xpath "/feed/entry/updated|/feed/entry/link/@href" 2>&1 \
   | grep -o '[">].*["<]' | sed -E 's/[">](.*)["<]/\1/' \
   | xargs -n 2 | awk '{printf("%s %s\n", $2, $1)}'
 }
 
 function jenkins-rss-latest {
-  jenkins-curl $JENKINS_URL/view/$JENKINS_DEFAULT_VIEW/rssLatest \
+  if [ -z $1 ]; then
+    url=$JENKINS_URL/rssLatest
+  else
+    url=$JENKINS_URL/view/$1/rssLatest
+  fi
+  jenkins-curl $url \
   | xpath "/feed/entry/updated|/feed/entry/link/@href" 2>&1 \
   | grep -o '[">].*["<]' | sed -E 's/[">](.*)["<]/\1/' \
   | xargs -n 2 | awk '{printf("%s %s\n", $2, $1)}'
