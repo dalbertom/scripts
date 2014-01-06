@@ -19,8 +19,23 @@ function jenkins-views {
   jenkins-curl -g $JENKINS_URL/api/xml?tree=views[name] | xpath "/hudson/view/name" 2>&1 | grep -F "<name>" | sed -E "s:<name>(.*)</name>(-- NODE --)?:\1:"
 }
 
+function jenkins-rss-failed-default {
+  jenkins-rss-failed $JENKINS_DEFAULT_VIEW
+}
+function jenkins-rss-all-default {
+  jenkins-rss-all $JENKINS_DEFAULT_VIEW
+}
+function jenkins-rss-latest {
+  jenkins-rss-latest $JENKINS_DEFAULT_VIEW
+}
+
 function jenkins-rss-failed {
-  jenkins-curl $JENKINS_URL/view/$JENKINS_DEFAULT_VIEW/rssFailed \
+  if [ -z $1 ]; then
+    url=$JENKINS_URL/rssFailed
+  else
+    url=$JENKINS_URL/view/$1/rssFailed
+  fi
+  jenkins-curl $url \
   | xpath "/feed/entry/updated|/feed/entry/link/@href" 2>&1 \
   | grep -o '[">].*["<]' | sed -E 's/[">](.*)["<]/\1/' \
   | xargs -n 2 | awk '{printf("%s %s\n", $2, $1)}'
