@@ -120,8 +120,10 @@ function git-review-fetch {
 }
 
 function git-owner {
-  filename=$1
-  git blame -w -f -C $filename | awk '{print $3 " " $4}' | sort | uniq -c | sort -rn
+  echo By commit
+  git shortlog -nes --no-merges $*
+  echo By line
+  git blame -w -f -e -C $* | awk '{print $3}' | sort | uniq -c | sort -rn
 }
 
 # infer tracking branch
