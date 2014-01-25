@@ -62,8 +62,12 @@ function git-review {
     git -c core.whitespace=cr-at-eol log --source --decorate --dirstat --log-size --format=fuller -p -C -w $MASTER..$i
   done
 }
-alias git-review-today="git-review `today`"
-alias git-review-yesterday="git-review `yesterday`"
+function git-review-today {
+  git-review `today`
+}
+function git-review-yesterday {
+  git-review `yesterday`
+}
 
 function git-review-rebases {
   git neighborhood refs/remotes | cut -d , -f 2 | cut -d / -f 3- \
