@@ -177,6 +177,20 @@ function git-du {
   git-find | xargs du -sh
 }
 
+# assuming the current branch was based
+# off the previous branch @{-1}, it will
+# change the current branch parent to the
+# newly-rebased parent. This walks the 
+# reflog of the previous branch to find
+# the best candidate in case there were
+# multiple rebases in the parent branch
+# before reparenting the current branch.
+function git-reparent {
+  git rev-list -g @{-1} | while read i; do
+    git merge-base --is-ancestor $i @ && git rebase --onto @{-1} $i && break
+  done
+}
+
 if [ -n "$SSH_TTY" ]; then
   PS1='\[\e[0;37m\]\t \[\e[0;32m\]\u@\h \[\e[0;36m\]\w\[\e[0;33m\]\n\[\e[0;37m\]\!\[\e[0m\]\$ '
 else
