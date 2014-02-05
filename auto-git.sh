@@ -109,7 +109,7 @@ function github-pr-no-merged {
 
 function git-review-fetch {
   url=git@github.com
-  repo=$(git remote | while read i; do git config remote.$i.url | cut -d : -f 2 | cut -d / -f 2; done | sort -u)
+  repo=$(git remote | while read i; do git config remote.$i.url | cut -d : -f 2 | cut -d / -f 2; done | sort -u | head -1)
   for i in $REMOTES; do
     git config remotes.$i > /dev/null
     if [ $? -eq 0 ]; then
