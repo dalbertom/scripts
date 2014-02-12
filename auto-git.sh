@@ -199,7 +199,9 @@ function git-snip {
 }
 
 function git-big {
-  git verify-pack -v .git/objects/pack/*.idx | grep -E "^\w+ blob\s+\d+ \d+ \d+$" | sort -k 3 -n
+  # git verify-pack -v .git/objects/pack/*.idx | grep -E "^\w+ blob\s+\d+ \d+ \d+$" | sort -k 3 -n
+  limit=${1-10}
+  grep --color=never -f <(git verify-pack -v .git/objects/pack/*.idx | grep -E "^\w+ blob\s+\d+ \d+ \d+$" | sort -k 3 -rn | head -10 | awk '{print $1}') <(git rev-list --all --objects)
 }
 
 if [ -n "$SSH_TTY" ]; then
