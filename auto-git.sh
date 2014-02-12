@@ -198,6 +198,10 @@ function git-snip {
   git remote | while read i; do git remote set-url --push $i ""; done
 }
 
+function git-big {
+  git verify-pack -v .git/objects/pack/*.idx | grep -E "^\w+ blob\s+\d+ \d+ \d+$" | sort -k 3 -n
+}
+
 if [ -n "$SSH_TTY" ]; then
   PS1='\[\e[0;37m\]\t \[\e[0;32m\]\u@\h \[\e[0;36m\]\w\[\e[0;33m\]\n\[\e[0;37m\]\!\[\e[0m\]\$ '
 else
