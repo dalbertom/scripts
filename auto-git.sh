@@ -56,10 +56,12 @@ function git-praise {
 
 function git-review {
   d=$1
-  git neighborhood refs/remotes \
-  | grep "^$d" | cut -d , -f 2 \
-  | while read i; do
-    git -c core.whitespace=cr-at-eol log --source --decorate --dirstat --log-size --format=fuller -p -C -w $MASTER..$i
+  git config remotes.$REMOTES | xargs -n 1 | while read r; do 
+    git neighborhood refs/remotes/$r \
+    | grep "^$d" | cut -d , -f 2 \
+    | while read i; do
+      git -c core.whitespace=cr-at-eol log --source --decorate --dirstat --log-size --format=fuller -p -C -w $MASTER..$i
+    done
   done
 }
 function git-review-today {
