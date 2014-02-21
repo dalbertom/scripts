@@ -192,6 +192,11 @@ function git-reparent {
     git merge-base --is-ancestor $i @ && git rebase --onto @{-1} $i && break
   done
 }
+function git-reparentu {
+  git rev-list -g @{u} | while read i; do
+    git merge-base --is-ancestor $i @ && git rebase --onto @{-1} $i && break
+  done
+}
 
 # removes push url for all remotes
 function git-snip {
