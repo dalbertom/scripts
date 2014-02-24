@@ -20,22 +20,22 @@ function jenkins-views {
 }
 
 function jenkins-rss-failed-default {
-  jenkins-rss-failed $JENKINS_DEFAULT_VIEW
+  jenkins-rss-failed $JENKINS_URL/view/$JENKINS_DEFAULT_VIEW
 }
 
 function jenkins-rss-all-default {
-  jenkins-rss-all $JENKINS_DEFAULT_VIEW
+  jenkins-rss-all $JENKINS_URL/view/$JENKINS_DEFAULT_VIEW
 }
 
 function jenkins-rss-latest-default {
-  jenkins-rss-latest $JENKINS_DEFAULT_VIEW
+  jenkins-rss-latest $JENKINS_URL/view/$JENKINS_DEFAULT_VIEW
 }
 
 function jenkins-rss-failed {
   if [ -z $1 ]; then
     url=$JENKINS_URL/rssFailed
   else
-    url=$JENKINS_URL/view/$1/rssFailed
+    url=$1/rssFailed
   fi
   jenkins-curl $url \
   | xpath "/feed/entry/updated|/feed/entry/link/@href" 2>&1 \
@@ -47,7 +47,7 @@ function jenkins-rss-all {
   if [ -z $1 ]; then
     url=$JENKINS_URL/rssAll
   else
-    url=$JENKINS_URL/view/$1/rssAll
+    url=$1/rssAll
   fi
   jenkins-curl $url \
   | xpath "/feed/entry/updated|/feed/entry/link/@href" 2>&1 \
@@ -59,7 +59,7 @@ function jenkins-rss-latest {
   if [ -z $1 ]; then
     url=$JENKINS_URL/rssLatest
   else
-    url=$JENKINS_URL/view/$1/rssLatest
+    url=$1/rssLatest
   fi
   jenkins-curl $url \
   | xpath "/feed/entry/updated|/feed/entry/link/@href" 2>&1 \
