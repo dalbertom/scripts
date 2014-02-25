@@ -31,16 +31,26 @@ function jenkins-rss-latest-default {
   jenkins-rss-latest $JENKINS_URL/view/$JENKINS_DEFAULT_VIEW
 }
 
+function jenkins-xpath-date-link-title {
+  xpath "/feed/entry/updated|/feed/entry/link/@href|/feed/entry/title" 2>&1 \
+  | grep -o '[">].*["<]' \
+  | sed -E 's/[">](.*)["<]/\1/' \
+  | awk '{t=$0 " " t} NR%3==0 {print t; t=""}'
+}
+
+function jenkins-xpath-date-link {
+  xpath "/feed/entry/updated|/feed/entry/link/@href" 2>&1 \
+  | grep -o '[">].*["<]' | sed -E 's/[">](.*)["<]/\1/' \
+  | xargs -n 2 | awk '{printf("%s %s\n", $2, $1)}'
+}
+
 function jenkins-rss-failed {
   if [ -z $1 ]; then
     url=$JENKINS_URL/rssFailed
   else
     url=$1/rssFailed
   fi
-  jenkins-curl $url \
-  | xpath "/feed/entry/updated|/feed/entry/link/@href" 2>&1 \
-  | grep -o '[">].*["<]' | sed -E 's/[">](.*)["<]/\1/' \
-  | xargs -n 2 | awk '{printf("%s %s\n", $2, $1)}'
+  jenkins-curl $url | jenkins-xpath-date-link
 }
 
 function jenkins-rss-all {
@@ -49,10 +59,7 @@ function jenkins-rss-all {
   else
     url=$1/rssAll
   fi
-  jenkins-curl $url \
-  | xpath "/feed/entry/updated|/feed/entry/link/@href" 2>&1 \
-  | grep -o '[">].*["<]' | sed -E 's/[">](.*)["<]/\1/' \
-  | xargs -n 2 | awk '{printf("%s %s\n", $2, $1)}'
+  jenkins-curl $url | jenkins-xpath-date-link
 }
 
 function jenkins-rss-latest {
@@ -61,10 +68,7 @@ function jenkins-rss-latest {
   else
     url=$1/rssLatest
   fi
-  jenkins-curl $url \
-  | xpath "/feed/entry/updated|/feed/entry/link/@href" 2>&1 \
-  | grep -o '[">].*["<]' | sed -E 's/[">](.*)["<]/\1/' \
-  | xargs -n 2 | awk '{printf("%s %s\n", $2, $1)}'
+  jenkins-curl $url | jenkins-xpath-date-link
 }
 
 function jenkins-console {
