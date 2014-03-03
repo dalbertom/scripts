@@ -129,7 +129,7 @@ function git-owner {
   echo By commit
   git shortlog -nes --no-merges $*
   echo By line
-  git blame -w -f -e -C $* | awk '{print $3}' | sort | uniq -c | sort -rn
+  git blame -w -f -e -C HEAD $* | awk '{print $3}' | sort | uniq -c | sort -rn
 }
 
 # infer tracking branch
