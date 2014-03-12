@@ -100,6 +100,18 @@ function jenkins-build {
   jenkins-curl -X POST "$JENKINS_URL/job/$job/build"
 }
 
+function jenkins-stop {
+  job=$1
+  jenkins-curl -X POST "$JENKINS_URL/job/$job/lastBuild/stop"
+}
+
+function jenkins-stop-view {
+  view=$1
+  jenkins-jobs $view | while read i; do
+    jenkins-stop $i
+  done
+}
+
 function jenkins-delete-job {
   job=$1
   jenkins-curl -X POST "$JENKINS_URL/job/$job/doDelete"
