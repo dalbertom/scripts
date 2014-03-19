@@ -136,7 +136,7 @@ function jenkins-delete-view-and-jobs {
 }
 
 function jenkins-framework-duration {
-  grep -E "Framework \w+ (started|finished)" | awk '{
+  grep -E "Framework .+ (started|finished)" | awk '{
     cmd=sprintf("date -j -f %%H:%%M:%%S %s +%%s", $5); cmd | getline; close(cmd)
     if (b == 0) {
       start=$0; b=1
