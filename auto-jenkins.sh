@@ -79,6 +79,10 @@ function jenkins-console-failed {
   jenkins-console $1 | grep "TEST.*FAILED"
 }
 
+function jenkins-console-testsuites {
+  jenkins-console $1 | awk '/Testsuite/ {suite = suite $3} /Tests run/ {print suite " " $11; suite=""}'
+}
+
 function jenkins-top-list {
   jenkins-views | cut -d _ -f 1 | uniq -c | sort -nr
 }
