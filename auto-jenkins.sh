@@ -137,7 +137,7 @@ function jenkins-framework-duration {
     if (b == 0) {
       start=$0; b=1
     } else {
-      diff=$0-start; b=0
+      diff=$0-start + (start > $0 ? 86400 : 0); b=0
       printf("%.2i:%.2i\n", int(diff/60), diff%60)
     }
   }'
