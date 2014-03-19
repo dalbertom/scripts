@@ -188,7 +188,8 @@ function git-du {
 # multiple rebases in the parent branch
 # before reparenting the current branch.
 function git-reparent {
-  git rev-list -g @{-1} | while read i; do
+#  git rev-list -g @{-1} | while read i; do # this used to work
+  git rev-list -g `git name-rev @{-1}` | while read i; do
     git merge-base --is-ancestor $i @ && git rebase --onto @{-1} $i && break
   done
 }
