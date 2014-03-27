@@ -147,6 +147,18 @@ function jenkins-framework-duration {
   }'
 }
 
+function jenkins-jboss-duration {
+  grep -E "Starting Jboss|Jboss Started" | awk '{
+    cmd=sprintf("date -j -f %%H:%%M:%%S %s +%%s", $4); cmd | getline; close(cmd)
+    if (b == 0) {
+      start=$0; b=1
+    } else {
+      diff=$0-start + (start > $0 ? 86400 : 0); b=0
+      printf("%.2i:%.2i\n", int(diff/60), diff%60)
+    }
+  }'
+}
+
 # Takes the output of consoleText of a job that
 # runs JUnit tests and greps for given test suites
 # Then it keeps track of how long the test suite
