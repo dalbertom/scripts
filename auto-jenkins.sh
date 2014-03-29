@@ -1,4 +1,7 @@
-alias jenkins-curl='curl -s -H "$JENKINS_AUTH"'
+# alias jenkins-curl='curl -s -H "$JENKINS_AUTH"'
+function jenkins-curl {
+  curl -s -H "$JENKINS_AUTH" $*
+}
 
 # This is meant to be called
 # from ~/.profile or ~/.bash_aliases
