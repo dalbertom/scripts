@@ -51,7 +51,7 @@ function git-fixup {
 }
 
 function git-praise {
-  git grep -n $* | cut -d: -f 1-2 | sed "s/:\(.*\)/ -L\1,+1/" | xargs -n 2 git --no-pager blame -w -fn HEAD
+  git grep -n "$*" | cut -d: -f 1-2 | sed "s/:\(.*\)/ -L\1,+1/" | xargs -n 2 git --no-pager blame -w -fn HEAD
 }
 
 function git-review {
