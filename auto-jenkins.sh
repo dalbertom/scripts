@@ -22,6 +22,30 @@ function jenkins-views {
   jenkins-curl -g $JENKINS_URL/api/xml?tree=views[name] | xpath "/hudson/view/name" 2>&1 | grep -F "<name>" | sed -E "s:<name>(.*)</name>(-- NODE --)?:\1:"
 }
 
+function jenkins-job-last {
+  job=$1
+  last=$2
+  jenkins-curl $JENKINS_URL/job/$job/api/xml?xpath=//$last/number | xml-element-value
+}
+function jenkins-job-lastBuild {
+  jenkins-job-last $1 lastBuild
+}
+function jenkins-job-lastStableBuild {
+  jenkins-job-last $1 lastStableBuild
+}
+function jenkins-job-lastCompletedBuild {
+  jenkins-job-last $1 lastCompletedBuild
+}
+function jenkins-job-lastSuccessfulBuild {
+  jenkins-job-last $1 lastSuccessfulBuild
+}
+function jenkins-job-lastUnstableBuild {
+  jenkins-job-last $1 lastUnstableBuild
+}
+function jenkins-job-lastUnsuccessfulBuild {
+  jenkins-job-last $1 lastUnsuccessfulBuild
+}
+
 function jenkins-rss-failed-default {
   jenkins-rss-failed $JENKINS_URL/view/$JENKINS_DEFAULT_VIEW
 }
@@ -34,17 +58,18 @@ function jenkins-rss-latest-default {
   jenkins-rss-latest $JENKINS_URL/view/$JENKINS_DEFAULT_VIEW
 }
 
+function xml-element-value {
+  grep -o '[">].*["<]' | sed -E 's/[">](.*)["<]/\1/'
+}
+
 function jenkins-xpath-date-link-title {
   xpath "/feed/entry/updated|/feed/entry/link/@href|/feed/entry/title" 2>&1 \
-  | grep -o '[">].*["<]' \
-  | sed -E 's/[">](.*)["<]/\1/' \
-  | awk '{t=$0 " " t} NR%3==0 {print t; t=""}'
+  | xml-element-value | awk '{t=$0 " " t} NR%3==0 {print t; t=""}'
 }
 
 function jenkins-xpath-date-link {
   xpath "/feed/entry/updated|/feed/entry/link/@href" 2>&1 \
-  | grep -o '[">].*["<]' | sed -E 's/[">](.*)["<]/\1/' \
-  | xargs -n 2 | awk '{printf("%s %s\n", $2, $1)}'
+  | xml-element-value | xargs -n 2 | awk '{printf("%s %s\n", $2, $1)}'
 }
 
 function jenkins-rss-failed {
