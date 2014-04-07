@@ -163,6 +163,18 @@ function jenkins-delete-view-and-jobs {
   jenkins-jobs $view | while read i; do jenkins-delete-job $i; done && jenkins-delete-view $view
 }
 
+function time-diff {
+  awk '{
+    cmd=sprintf("date -j -f %%H:%%M:%%S %s +%%s", $1); cmd | getline; close(cmd)
+    if (b == 0) {
+      start=$0; b=1
+    } else {
+      diff=$0-start + (start > $0 ? 86400 : 0); b=0
+      printf("%.2i:%.2i\n", int(diff/60), diff%60)
+    }
+  }'
+}
+
 function jenkins-framework-duration {
   grep -E "Framework .+ (started|finished)" | awk '{
     cmd=sprintf("date -j -f %%H:%%M:%%S %s +%%s", $5); cmd | getline; close(cmd)
