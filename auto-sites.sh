@@ -42,18 +42,22 @@ function site-default-domain {
 function site-plugins-transfer {
   srchost=$(site-default-domain $1)
   dsthost=$(site-default-domain $2)
+  ssh-forget $srchost
+  ssh-forget $dsthost
   scp -3 $SITE_USERNAME@$srchost:$SITE_PLUGINS/*.jar $SITE_USERNAME@$dsthost:$SITE_PLUGINS
 }
 
 function site-plugins-download {
   srchost=$(site-default-domain $1)
   dest=${2-.}
+  ssh-forget $srchost
   scp $SITE_USERNAME@$srchost:$SITE_PLUGINS/*.jar $dest
 }
 
 function site-plugins-upload {
   dsthost=$(site-default-domain $1)
   src=${2-.}
+  ssh-forget $dsthost
   scp $src/*.jar $SITE_USERNAME@$dsthost:$SITE_PLUGINS
 }
 
