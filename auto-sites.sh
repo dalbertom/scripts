@@ -2,10 +2,11 @@ function setup-sites {
   export SITE_USERNAME=$1
   export SITE_DEFAULT_DOMAIN=$2
   SITE_BASEDIR=$3
-  export SITE_LOG_APPSERVER=$SITE_BASEDIR/$4
-  export SITE_LOG_AUDIT=$SITE_BASEDIR/$5
-  export SITE_BUILD_INFO=$SITE_BASEDIR/$6
-  export SITE_PLUGINS=$SITE_BASEDIR/$7
+  export SITE_LOGS=$SITE_BASEDIR/$4
+  export SITE_LOG_APPSERVER=$SITE_LOGS/$5
+  export SITE_LOG_AUDIT=$SITE_LOGS/$6
+  export SITE_BUILD_INFO=$SITE_LOGS/$7
+  export SITE_PLUGINS=$SITE_LOGS/$8
 }
 
 function setup-ec2 {
@@ -63,7 +64,11 @@ function site-plugins-upload {
 }
 
 function site-exceptions {
-  ssh-site $* cat $SITE_LOG_APPSERVER | awk '/Exception/,/^$/ {print $0}'
+  ssh-site $* tail -f $SITE_LOG_APPSERVER | awk '/Exception/,/^$/ {print $0}'
+}
+
+function site-errors {
+  ssh-site $* tail -f '$SITE_LOGS/*.log' | awk '/Exception|Throwable|Error/,/^$/ {print $0} /ERROR|FATAL/ {print $0}'
 }
 
 function site-activity {
