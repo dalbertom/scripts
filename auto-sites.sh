@@ -68,7 +68,7 @@ function site-exceptions {
 }
 
 function site-errors {
-  ssh-site $* tail -f '$SITE_LOGS/*.log' | awk '/Exception|Throwable|Error/,/^$/ {print $0} /ERROR|FATAL/ {print $0}'
+  ssh-site $* tail -f $SITE_LOGS/*.log | awk '/Exception|Throwable|Error/,/^$/ {print $0} /ERROR|FATAL/ {print $0}'
 }
 
 function site-activity {
