@@ -148,6 +148,16 @@ function jenkins-stop-view {
   done
 }
 
+function jenkins-job-disable {
+  job=$1
+  jenkins-curl -X POST "$JENKINS_URL/job/$job/disable"
+}
+
+function jenkins-job-enable {
+  job=$1
+  jenkins-curl -X POST "$JENKINS_URL/job/$job/enable"
+}
+
 function jenkins-delete-job {
   job=$1
   jenkins-curl -X POST "$JENKINS_URL/job/$job/doDelete"
