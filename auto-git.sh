@@ -132,6 +132,10 @@ function git-owner {
   git blame -w -f -e -C HEAD $* | awk '{print $3}' | sort | uniq -c | sort -rn
 }
 
+function git-street-cred {
+  git log --dirstat --no-merges --author=$* | grep -E "[0-9.]+%" | awk '{print $2}' | sort | uniq -c | sort -n
+}
+
 # infer tracking branch
 # of current branch
 function git-tracking {
