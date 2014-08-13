@@ -107,6 +107,10 @@ function jenkins-console-failed {
   jenkins-console $1 | grep "TEST.*FAILED"
 }
 
+function jenkins-console-crashed {
+  jenkins-console $1 | grep "Tests FAILED (crashed)"
+}
+
 function jenkins-console-testsuites {
   jenkins-console $1 | awk '/Testsuite/ {suite = suite $3} /Tests run/ {print suite " " $11; suite=""}'
 }
