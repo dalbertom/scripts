@@ -104,7 +104,7 @@ function jenkins-console {
 }
 
 function jenkins-console-failed {
-  jenkins-console $1 | grep "TEST.*FAILED"
+  jenkins-console $1 | grep "T[Ee][Ss][Tt].*FAILED"
 }
 
 function jenkins-console-crashed {
