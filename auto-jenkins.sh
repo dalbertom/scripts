@@ -225,6 +225,17 @@ function jenkins-testsuite-times {
     END { for(key in times) print key times[key] }'
 }
 
+function jenkins-testpackage-times {
+  jenkins-testsuite-times | awk '
+    {
+      delete a[split("." $1,a,".")]
+      b=""; for(i in a) b=b a[i] "."; b=substr(b,1,length(b)-2)
+      t[b]+=$2
+    }
+    END {for(i in t) printprintf("%d %s\n",t[i], i)}
+  ' | sort -n
+}
+
 function jenkins-testsuite-stats {
   testsuite=$1
   grep -A 1 "Testsuite: $testsuite" | awk '
