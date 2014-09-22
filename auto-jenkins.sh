@@ -232,7 +232,7 @@ function jenkins-testpackage-times {
       b=""; for(i in a) b=b a[i] "."; b=substr(b,1,length(b)-2)
       t[b]+=$2
     }
-    END {for(i in t) printprintf("%d %s\n",t[i], i)}
+    END {for(i in t) printf("%d %s\n",t[i], i)}
   ' | sort -n
 }
 
