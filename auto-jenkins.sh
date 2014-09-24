@@ -222,7 +222,7 @@ function jenkins-testsuite-times {
   grep -A 1 "Testsuite: $testsuite" | awk '
     /Testsuite/ { suite=$3 }
     /Tests run/ { times[suite]=times[suite] " " $11 }
-    END { for(key in times) print key times[key] }'
+    END { for(key in times) print key times[key] }' | sed 's/,//'
 }
 
 function jenkins-testpackage-times {
