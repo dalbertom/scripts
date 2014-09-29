@@ -1,6 +1,5 @@
-# alias jenkins-curl='curl -s -H "$JENKINS_AUTH"'
 function jenkins-curl {
-  curl -s -H "$JENKINS_AUTH" $*
+  curl -s -u "$JENKINS_AUTH" $*
 }
 
 # This is meant to be called
