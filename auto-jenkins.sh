@@ -129,6 +129,11 @@ function jenkins-top-list-merged {
   done | cut -d / -f 1 | uniq -c | sort -nr
 }
 
+function jenkins-label-tiedJobs {
+  label=$1
+  jenkins-curl "$JENKINS_URL/label/$label/api/xml" | xpath "/labelAtom/tiedJob/name" 2>&1 | sed -E "s:<name>(.*)</name>(-- NODE --)?:\1:"
+}
+
 function jenkins-jobs {
   view=$1
   jenkins-curl "$JENKINS_URL/view/$view/api/xml" | xpath "/listView/job/name" 2>&1 | grep -F "<name>" | sed -E "s:<name>(.*)</name>(-- NODE --)?:\1:"
