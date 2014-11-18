@@ -110,6 +110,10 @@ function jenkins-console-crashed {
   jenkins-console $1 | grep "Tests FAILED (crashed)"
 }
 
+function jenkins-console-timeout {
+  jenkins-console $1 | grep "Timeout occurred. Please note the time in the report does not reflect the time until the timeout."
+}
+
 function jenkins-console-testsuites {
   jenkins-console $1 | awk '/Testsuite/ {suite = suite $3} /Tests run/ {print suite " " $11; suite=""}'
 }
