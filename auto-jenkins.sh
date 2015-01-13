@@ -71,6 +71,11 @@ function jenkins-xpath-date-link {
   | xml-element-value | xargs -n 2 | awk '{printf("%s %s\n", $2, $1)}'
 }
 
+function jenkins-job-result {
+  job=$1
+  jenkins-curl $job/api/xml?xpath=//result | xml-element-value
+}
+
 function jenkins-rss-failed {
   if [ -z $1 ]; then
     url=$JENKINS_URL/rssFailed
