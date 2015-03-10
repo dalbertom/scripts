@@ -44,6 +44,9 @@ function jenkins-job-lastUnstableBuild {
 function jenkins-job-lastUnsuccessfulBuild {
   jenkins-job-last $1 lastUnsuccessfulBuild
 }
+function jenkins-job-description {
+  jenkins-curl $JENKINS_URL/job/$1/description
+}
 
 function jenkins-rss-failed-default {
   jenkins-rss-failed $JENKINS_URL/view/$JENKINS_DEFAULT_VIEW
