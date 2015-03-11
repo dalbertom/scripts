@@ -217,6 +217,10 @@ function jenkins-framework-duration {
   }'
 }
 
+function jenkins-job-duration {
+  jenkins-curl "$JENKINS_URL/job/$i/$(jenkins-job-lastCompletedBuild $i)/api/xml?xpath=//duration" | xml-element-value
+}
+
 function jenkins-jboss-duration {
   grep -E "Starting Jboss|Jboss Started" | awk '{
     cmd=sprintf("date -j -f %%H:%%M:%%S %s +%%s", $4); cmd | getline; close(cmd)
