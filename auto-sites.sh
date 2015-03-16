@@ -25,7 +25,8 @@ alias qscp='scp -o StrictHostKeyChecking=no'
 function ssh-site {
   sitename=$(site-default-domain $1)
   shift
-  ssh-forget $sitename
+  ssh-keyscan -H $sitename >> ~/.ssh/known_hosts
+  # ssh-forget $sitename
   qssh $SITE_USERNAME@$sitename $*
 }
 
