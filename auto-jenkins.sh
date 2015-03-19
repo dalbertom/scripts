@@ -284,3 +284,17 @@ function jenkins-testsuite-stats {
       }
     }'
 }
+
+# when Jenkins master runs out of disk space
+# the slaves die, so this finds all slaves
+# and restarts the thread to bring them
+# back up
+function jenkins-yank {
+  jenkins-curl $JENKINS_URL \
+  | grep -o -E "[a-z0-9/-]*causeOfDeath" \
+  | sed 's/causeOfDeath/yank/' \
+  | while read i; do \
+    jenkins-curl -X POST $JENKINS_URL/$i
+  done
+}
+}
