@@ -297,4 +297,3 @@ function jenkins-yank {
     jenkins-curl -X POST $JENKINS_URL/$i
   done
 }
-}
