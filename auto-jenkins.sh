@@ -178,6 +178,11 @@ function jenkins-job-enable {
   jenkins-curl -X POST "$JENKINS_URL/job/$job/enable"
 }
 
+function jenkins-delete-slave {
+  slave=$1
+  jenkins-curl -X POST "$JENKINS_URL/computer/$slave/doDelete"
+}
+
 function jenkins-delete-job {
   job=$1
   jenkins-curl -X POST "$JENKINS_URL/job/$job/doDelete"
