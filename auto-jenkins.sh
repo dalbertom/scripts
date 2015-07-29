@@ -302,3 +302,14 @@ function jenkins-yank {
     jenkins-curl -X POST $JENKINS_URL/$i
   done
 }
+
+# find slaves with no executors
+# need to match against the list
+# of active ec2 instances, if
+# the instance has been terminated,
+# then it's fine to run jenkins-delete-slave
+function jenkins-dead-slaves {
+  jenkins-curl "$JENKINS_URL/computer/api/xml?xpath=/computerSet/computer\[numExecutors=0\]/displayName&wrapper=displayName" \
+  | sed 's:</displayName>: :g;s:<displayName>::g' \
+  | tr ' ' '\n'
+}
