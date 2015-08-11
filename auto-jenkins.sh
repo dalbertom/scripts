@@ -290,6 +290,12 @@ function jenkins-testsuite-stats {
     }'
 }
 
+function jenkins-script {
+  script=$1
+  url=${2-$JENKINS_URL}
+  jenkins-curl --data-urlencode "script=$(cat $script)" $url/scriptText
+}
+
 # when Jenkins master runs out of disk space
 # the slaves die, so this finds all slaves
 # and restarts the thread to bring them
