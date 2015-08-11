@@ -1,5 +1,5 @@
 function jenkins-curl {
-  curl -s -u "$JENKINS_AUTH" $*
+  curl -s -u "$JENKINS_AUTH" "$@"
 }
 
 # This is meant to be called
