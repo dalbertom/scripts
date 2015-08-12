@@ -123,7 +123,7 @@ function jenkins-console-timeout {
 }
 
 function jenkins-console-testsuites {
-  jenkins-console $1 | awk '/Testsuite/ {suite = suite $3} /Tests run/ {print suite " " $11; suite=""}'
+  jenkins-console $1 | awk '/Testsuite/ {suite = suite $3} /Tests run/ {print suite " " $13; suite=""}'
 }
 
 function jenkins-console-testcases {
@@ -246,7 +246,7 @@ function jenkins-testsuite-times {
   testsuite=$1
   grep -A 1 "Testsuite: $testsuite" | awk '
     /Testsuite/ { suite=$3 }
-    /Tests run/ { times[suite]=times[suite] " " $11 }
+    /Tests run/ { times[suite]=times[suite] " " $13 }
     END { for(key in times) print key times[key] }' | sed 's/,//'
 }
 
@@ -267,7 +267,7 @@ function jenkins-testsuite-stats {
     BEGIN { print "suite,avg,stddev,min,max,count" }
     /Testsuite/ { suite=$3 }
     /Tests run/ {
-      data=$11
+      data=$13
       count[suite]++; sum[suite]+=data; sqrsum[suite]+=data*data
       if (min[suite] == "") {
         min[suite] = data
