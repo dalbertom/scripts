@@ -13,3 +13,6 @@ function brb {
   pmset displaysleepnow
 }
 
+function flush-dns {
+  sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
+}
