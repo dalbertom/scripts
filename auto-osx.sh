@@ -21,3 +21,7 @@ function flush-dns {
 function wifi-scan {
   /System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport scan
 }
+
+function wifi {
+  networksetup -listallhardwareports | grep -A 1 Wi-Fi | grep Device | awk '{print $2}'
+}
