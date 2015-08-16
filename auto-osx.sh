@@ -23,5 +23,21 @@ function wifi-scan {
 }
 
 function wifi {
-  networksetup -listallhardwareports | grep -A 1 Wi-Fi | grep Device | awk '{print $2}'
+  if [ $# -eq 0 ]; then
+    networksetup -listallhardwareports | grep -A 1 Wi-Fi | grep Device | awk '{print $2}'
+  else
+    networksetup -setairportpower `wifi` $1
+  fi
+}
+
+function wifi-network {
+  if [ $# -eq 0 ]; then
+    networksetup -getairportnetwork `wifi`
+  else
+    networksetup -setairportnetwork `wifi` $1 ${2--}
+  fi
+}
+
+function wifi-preferred-list {
+  networksetup -listpreferredwirelessnetworks `wifi`
 }
