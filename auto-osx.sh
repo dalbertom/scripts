@@ -16,3 +16,8 @@ function brb {
 function flush-dns {
   sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
 }
+
+# http://blog.mattcrampton.com/post/64144666914/managing-wifi-connections-using-the-mac-osx
+function wifi-scan {
+  /System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport scan
+}
