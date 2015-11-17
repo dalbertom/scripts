@@ -10,10 +10,9 @@ function setup-sites {
 }
 
 function setup-ec2 {
-  export EC2_HOME=$1
-  export EC2_CERT=$2
-  export EC2_PRIVATE_KEY=$3
-  export PATH=$EC2_HOME/bin:$PATH
+  mapfile -t < $1
+  export AWS_ACCESS_KEY=${MAPFILE[0]}
+  export AWS_SECRET_KEY=${MAPFILE[1]}
 }
 
 function site-list {
