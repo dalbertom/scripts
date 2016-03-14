@@ -293,7 +293,7 @@ function jenkins-testsuite-stats {
 function jenkins-script {
   script=$1
   url=${2-$JENKINS_URL}
-  jenkins-curl --data-urlencode "script=$(cat $script)" $url/scriptText
+  jenkins-curl -H 'Expect:' --data-urlencode "script=$(cat $script)" $url/scriptText
 }
 
 # when Jenkins master runs out of disk space
