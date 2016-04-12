@@ -19,7 +19,7 @@ function site-list {
   ec2dtag | awk '/instance.*Name.*site:/ {print $6}' | sort
 }
 
-alias qssh='ssh -e none -o StrictHostKeyChecking=no'
+alias qssh='ssh -A -e none -o StrictHostKeyChecking=no'
 alias qscp='scp -o StrictHostKeyChecking=no'
 function ssh-site {
   sitename=$(site-default-domain $1)
