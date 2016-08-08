@@ -18,7 +18,8 @@ function ci {
 }
 
 function jenkins-views {
-  jenkins-curl -g $JENKINS_URL/api/xml?tree=views[name] | xpath "/hudson/view/name" 2>&1 | grep -F "<name>" | sed -E "s:<name>(.*)</name>(-- NODE --)?:\1:"
+  #jenkins-curl -g $JENKINS_URL/api/xml?tree=views[name] | xpath "/hudson/view/name" 2>&1 | grep -F "<name>" | sed -E "s:<name>(.*)</name>(-- NODE --)?:\1:"
+  echo "<root>$(jenkins-curl -g $JENKINS_URL/api/xml?tree=views[name])</root>" | xpath "/root/hudson/view/name" 2>&1 | grep -F "<name>" | sed -E "s:<name>(.*)</name>(-- NODE --)?:\1:"
 }
 
 function jenkins-job-last {
