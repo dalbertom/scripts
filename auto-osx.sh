@@ -13,6 +13,10 @@ function brb {
   pmset displaysleepnow
 }
 
+function lock {
+  /System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend
+}
+
 function flush-dns {
   sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
 }
