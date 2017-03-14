@@ -1,4 +1,5 @@
 function jenkins-curl {
+  local JENKINS_AUTH="$(cat ~/.jenkins-user):$(awk -v url=$JENKINS_URL '$1 == url {print $2}' ~/.jenkins-token)"
   curl -s -u "$JENKINS_AUTH" "$@"
 }
 
@@ -9,8 +10,7 @@ function jenkins-curl {
 # functions
 function setup-jenkins {
   export JENKINS_URL=$1
-  export JENKINS_AUTH=$2
-  export JENKINS_DEFAULT_VIEW=$3
+  export JENKINS_DEFAULT_VIEW=$2
 }
 
 function ci {
