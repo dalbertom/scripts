@@ -9,12 +9,6 @@ function setup-sites {
   export SITE_PLUGINS=$SITE_LOGS/$8
 }
 
-function setup-ec2 {
-  mapfile -t < $1
-  export AWS_ACCESS_KEY=${MAPFILE[0]}
-  export AWS_SECRET_KEY=${MAPFILE[1]}
-}
-
 function site-list {
   ec2dtag | awk '/instance.*Name.*site:/ {print $6}' | sort
 }
