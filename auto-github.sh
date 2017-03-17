@@ -2,15 +2,16 @@ GITHUB_URL=https://github.com
 GITHUB_API_URL=https://api.github.com
 
 function setup-github {
-  export GITHUB_TOKEN=$1
-  export GITHUB_AGENT=$2
+  export GITHUB_AGENT=$1
 }
 
 function github-curl {
+  local GITHUB_TOKEN=$(cat ~/.github-token)
   curl -H "Authorization: token $GITHUB_TOKEN" -H "User-Agent: $GITHUB_AGENT" $*
 }
 
 function github-curl2 {
+  local GITHUB_TOKEN=$(cat ~/.github-token)
   curl -u $GITHUB_TOKEN:x-oauth-basic $*
 }
 
