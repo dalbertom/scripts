@@ -18,6 +18,6 @@ function absolute {
 function diff-zip {
   lhs=${1?lhs}
   rhs=${2?rhs}
-  diff <(unzip -lv $lhs | awk '{print $NF " " $(NF-1)}' | grep -v 00000000 | sort) <(unzip -lv $rhs | awk '{print $NF " " $(NF-1)}' | grep -v 00000000 | sort)
+  diff <(unzip -lv $lhs | awk '{print $NF " " $(NF-1)}' | sort) <(unzip -lv $rhs | awk '{print $NF " " $(NF-1)}' | sort)
 }
 alias diff-jar=diff-zip
