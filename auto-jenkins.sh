@@ -291,6 +291,19 @@ function jenkins-testsuite-stats {
     }'
 }
 
+function jenkins-queue {
+  jenkins-curl "$JENKINS_URL/queue/api/xml" \
+  | xpath "/queue/item/task/name|/queue/item/id" 2>&1 \
+  | sed -E "s:(.*)-- NODE --:\1:" \
+  | xml-element-value \
+  | xargs -n 2
+}
+
+function jenkins-queue-cancelItem {
+  item=${1?item}
+  jenkins-curl -XPOST "$JENKINS_URL/queue/cancelItem?id=$item"
+}
+
 function jenkins-script {
   script=$1
   url=${2-$JENKINS_URL}
