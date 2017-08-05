@@ -25,3 +25,16 @@ function diff-zip {
   diff <(cd $dlhs; unzip -lv $flhs | awk '{print $NF " " $(NF-1)}' | sort) <(cd $drhs; unzip -lv $frhs | awk '{print $NF " " $(NF-1)}' | sort)
 }
 alias diff-jar=diff-zip
+
+function diff-zip2 {
+  lhs=${1?lhs}
+  rhs=${2?rhs}
+  tlhs=$(mktemp -d)
+  trhs=$(mktemp -d)
+  unzip -q $lhs -d $tlhs
+  unzip -q $rhs -d $trhs
+  find $tlhs $trhs -type f -name '*.jar' -o -name '*.zip' | while read i; do
+    unzip -q $i -d $i-diff && rm $i
+  done
+  diff -r $tlhs $trhs
+}
