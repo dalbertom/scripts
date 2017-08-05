@@ -36,5 +36,5 @@ function diff-zip2 {
   find $tlhs $trhs -type f -name '*.jar' -o -name '*.zip' | while read i; do
     unzip -q $i -d $i-diff && rm $i
   done
-  diff -r $tlhs $trhs
+  diff -r $tlhs $trhs && rm -rf $tlhs $trhs
 }
