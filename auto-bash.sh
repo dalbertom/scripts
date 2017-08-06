@@ -31,10 +31,10 @@ function diff-zip2 {
   rhs=${2?rhs}
   tlhs=$(mktemp -d)
   trhs=$(mktemp -d)
-  unzip -q $lhs -d $tlhs
-  unzip -q $rhs -d $trhs
+  unzip -qo $lhs -d $tlhs
+  unzip -qo $rhs -d $trhs
   find $tlhs $trhs -type f -name '*.jar' -o -name '*.zip' | while read i; do
-    unzip -q $i -d $i-diff && rm $i
+    unzip -qo $i -d $i-diff && rm $i
   done
   diff -r $tlhs $trhs && rm -rf $tlhs $trhs
 }
