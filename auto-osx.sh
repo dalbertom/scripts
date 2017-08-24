@@ -45,3 +45,20 @@ function wifi-network {
 function wifi-preferred-list {
   networksetup -listpreferredwirelessnetworks `wifi`
 }
+
+function socks-on {
+  networkservice=${1-Wi-Fi}
+  networksetup -setsocksfirewallproxystate "$networkservice" on
+}
+
+function socks-off {
+  networkservice=${1-Wi-Fi}
+  networksetup -setsocksfirewallproxystate "$networkservice" off
+}
+
+function socks-setup {
+  hostname=${1?hostname}
+  port=${2?port}
+  networkservice=${3-Wi-Fi}
+  networksetup -setsocksfirewallproxy "$networkservice" $hostname $port
+}
