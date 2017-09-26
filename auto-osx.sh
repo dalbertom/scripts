@@ -6,14 +6,17 @@ alias hideFiles="defaults write com.apple.finder AppleShowAllFiles NO; killall F
 
 function bye {
   [ ! -z $1 ] && sleep $1
+  ssh-add -D
   pmset sleepnow              
 }
 
 function brb {
+  ssh-add -D
   pmset displaysleepnow
 }
 
 function lock {
+  ssh-add -D
   /System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend
 }
 
