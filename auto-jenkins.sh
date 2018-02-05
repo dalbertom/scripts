@@ -82,7 +82,7 @@ function jenkins-job-result {
 
 function jenkins-job-testCount {
   job=$1
-  jenkins-curl $job/testReport/api/xml?xpath=//testResult/failCount|//testResult/passCount&wrapper=testResult" \
+  jenkins-curl "$job/testReport/api/xml?xpath=//testResult/failCount|//testResult/passCount&wrapper=testResult" \
   | xml-element-value \
   | tr '><' '\n' \
   | awk '/^(failCount|passCount)$/ {p=1; next} {if (p) sum+=$1; p=0} END {print sum}'
