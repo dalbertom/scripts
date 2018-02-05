@@ -80,6 +80,14 @@ function jenkins-job-result {
   jenkins-curl $job/api/xml?xpath=//result | xml-element-value
 }
 
+function jenkins-job-testCount {
+  job=$1
+  jenkins-curl $job/testReport/api/xml?xpath=//testResult/failCount|//testResult/passCount&wrapper=testResult" \
+  | xml-element-value \
+  | tr '><' '\n' \
+  | awk '/^(failCount|passCount)$/ {p=1; next} {if (p) sum+=$1; p=0} END {print sum}'
+}
+
 function jenkins-rss-failed {
   if [ -z $1 ]; then
     url=$JENKINS_URL/rssFailed
