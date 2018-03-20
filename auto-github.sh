@@ -33,6 +33,10 @@ function github-statuses {
   github-curl "$GITHUB_API_URL/repos/$owner/$repo/statuses/$ref"
 }
 
+function github-limit {
+  github-curl2 $GITHUB_API_URL/rate_limit
+}
+
 function github-keys {
   user=$1
   curl $GITHUB_URL/$user.keys
