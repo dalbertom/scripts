@@ -1,6 +1,5 @@
 function jenkins-curl {
-  local JENKINS_AUTH="$(cat ~/.jenkins-user):$(awk -v url=$JENKINS_URL '$1 == url {print $2}' ~/.jenkins-token)"
-  curl -s -u "$JENKINS_AUTH" "$@"
+  curl -s --netrc-optional "$@"
 }
 
 # This is meant to be called
