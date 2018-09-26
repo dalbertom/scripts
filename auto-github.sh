@@ -8,7 +8,7 @@ function setup-github {
 function github-curl {
   local GITHUB_TOKEN=$(cat ~/.github-token)
 #  curl -H "Authorization: token $GITHUB_TOKEN" -H "User-Agent: $GITHUB_AGENT" $*
-  curl -H "Authorization: token $GITHUB_TOKEN" $@
+  curl -H "Authorization: token $GITHUB_TOKEN" -H 'Accept: application/vnd.github.antiope-preview+json' $*
 }
 
 function github-curl2 {
