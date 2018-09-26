@@ -7,7 +7,8 @@ function setup-github {
 
 function github-curl {
   local GITHUB_TOKEN=$(cat ~/.github-token)
-  curl -H "Authorization: token $GITHUB_TOKEN" -H "User-Agent: $GITHUB_AGENT" $*
+#  curl -H "Authorization: token $GITHUB_TOKEN" -H "User-Agent: $GITHUB_AGENT" $*
+  curl -H "Authorization: token $GITHUB_TOKEN" $*
 }
 
 function github-curl2 {
