@@ -68,3 +68,12 @@ function socks-setup {
   networkservice=${3-Wi-Fi}
   networksetup -setsocksfirewallproxy "$networkservice" $hostname $port
 }
+
+function topp {
+  top -l 1 -stats MEM,COMMAND -o MEM \
+  | sed -E 's/ +/,/;s/ *$//;s/ /-/g' \
+  | awk -F, 'NR>12 {
+    if($1~/M/) $1*=1024*1024; else if($1~/K/) $1*=1024; map[$2]+=$1
+  } END {for(k in map) print map[k]/1024/1024 " " k}' \
+  | sort -n
+}
