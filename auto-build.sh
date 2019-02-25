@@ -6,7 +6,7 @@ alias crash="build clean-eclipse eclipse" #  || build eclipse-projects-clean ecl
 alias rebuild='qbuild -l build1.log sound dev || build -l build2.log sound dev || crash -l build3.log sound dev || build -l build4.log sound clean dev'
 
 function isup {
-  curl -sLI http://`hostname`:8080/`basename $PWD` | grep '200 OK'
+  curl -sLI http://`hostname`:8080/`basename $PWD` | grep 'HTTP/1.1 200'
 }
 
 function bisectable {
