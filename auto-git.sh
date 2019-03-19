@@ -211,7 +211,7 @@ function git-snip {
 function git-big {
   # git verify-pack -v .git/objects/pack/*.idx | grep -E "^\w+ blob\s+\d+ \d+ \d+$" | sort -k 3 -n
   limit=${1-10}
-  grep --color=never -f <(git verify-pack -v $(git rev-parse --git-dir)/objects/pack/*.idx | grep -E "^\w+ blob\s+\d+ \d+ \d+$" | sort -k 3 -rn | head -$limit | awk '{print $1}') <(git rev-list --all --objects) | awk '{blob=$1; name=$2; cmd="git cat-file -s " blob; cmd | getline; close cmd; print $0/1024/1024 " " blob " " name}' | sort -rn
+  grep --color=never -f <(git verify-pack -v $(git rev-parse --git-common-dir)/objects/pack/*.idx | grep -E "^\w+ blob\s+\d+ \d+ \d+$" | sort -k 3 -rn | head -$limit | awk '{print $1}') <(git rev-list --all --objects) | awk '{blob=$1; name=$2; cmd="git cat-file -s " blob; cmd | getline; close cmd; print $0/1024/1024 " " blob " " name}' | sort -rn
 }
 
 if [ -n "$SSH_TTY" ]; then
