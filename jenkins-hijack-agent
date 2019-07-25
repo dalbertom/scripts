@@ -1,0 +1,75 @@
+#!/usr/bin/env python3
+
+from pprint import pprint
+import getpass
+import os
+import pty
+import requests
+import sys
+import xml.etree.ElementTree as XML
+
+def is_idle(url, node):
+    r = requests.get(url + f'/computer/{node}/api/json')
+    r.raise_for_status()
+    agent = r.json()
+    return agent['idle']
+
+def get_config(url, node):
+    r = requests.get(url + f'/computer/{node}/config.xml')
+    r.raise_for_status()
+    xml = XML.fromstring(r.text)
+    return xml
+
+def get_label(xml):
+    label = xml.find('label')
+    return label.text
+
+def create_new_label(old_label):
+    suffix = getpass.getuser()
+    label = ' '.join([w + '-' + suffix for w in old_label.split()])
+    return label
+
+def update_label(xml, new_label, url, node):
+    xml.find('label').text = new_label
+    data = XML.tostring(xml, encoding='utf8', method='xml').decode('utf8')
+    r = requests.post(url + f'/computer/{node}/config.xml', data=data)
+    r.raise_for_status()
+
+def spawn_shell(host):
+    shell = os.environ.get('SHELL', 'sh')
+    pty.spawn(shell)
+
+def get_host(xml):
+    launcher = xml.find('launcher')
+    host = launcher.find('host')
+    return host.text
+
+def process_node(url, node):
+    xml = get_config(url, node)
+    host = get_host(xml)
+    old_label = get_label(xml)
+    new_label = create_new_label(old_label)
+    print(f'\nFound idle agent at {url}/computer/{node}')
+    update_label(xml, new_label, url, node)
+    print(f'Run: ssh {host}\nWhen done, press ctrl+d, ctrl+c\n')
+    spawn_shell(host)
+    print('Releasing agent')
+    update_label(xml, old_label, url, node)
+
+def process_server(url):
+    r = requests.get(url + '/label/cloud/api/json')
+    r.raise_for_status()
+    nodes = [ node['nodeName'] for node in r.json()['nodes'] ]
+    print('Processing', len(nodes), 'nodes in', url)
+    for node in nodes:
+        if not is_idle(url, node):
+            continue
+        process_node(url, node)
+        return True
+    return False
+
+servers = sys.argv[1:]
+for server in servers:
+    found = process_server(server)
+    if found:
+        break
