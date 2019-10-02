@@ -200,11 +200,6 @@ function jenkins-delete-view {
   jenkins-curl -X POST "$JENKINS_URL/view/$view/doDelete"
 }
 
-function jenkins-delete-view-and-jobs {
-  view=$1
-  jenkins-jobs $view | while read i; do jenkins-delete-job $i; done && jenkins-delete-view $view
-}
-
 function time-diff {
   awk '{
     cmd=sprintf("date -j -f %%H:%%M:%%S %s +%%s", $1); cmd | getline; close(cmd)

@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+import requests
+import sys
+
+URL = sys.argv[1]
+r = requests.get(URL + '/api/json')
+r.raise_for_status()
+view = r.json()
+jobs = view['jobs']
+for job in jobs:
+    print("Deleting job " + job['name'])
+    r = requests.post(job['url'] + '/doDelete')
+    r.raise_for_status()
+print("Deleting view " + view['name'])
+r = requests.post(view['url'] + '/doDelete')
+r.raise_for_status()
