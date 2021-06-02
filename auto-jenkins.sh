@@ -165,7 +165,7 @@ function jenkins-build {
 
 function jenkins-stop {
   job=$1
-  jenkins-curl -X POST "$JENKINS_URL/job/$job/lastBuild/stop"
+  jenkins-curl -X POST "$JENKINS_URL/job/$job/lastBuild/kill"
 }
 
 function jenkins-stop-view {
